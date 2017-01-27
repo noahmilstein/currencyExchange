@@ -11,10 +11,13 @@ class Api::SourcesController < ApiController
     # https://github.com/toddmotto/public-apis
 
     mutated_data = []
+    count = 1
     rates.each_pair do |key, value|
       hash = {}
       hash[:currency] = key
       hash[:value] = value
+      hash[:id] = count
+      count += 1
       mutated_data << hash
     end
 

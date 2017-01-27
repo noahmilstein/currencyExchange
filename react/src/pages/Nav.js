@@ -14,9 +14,9 @@ class Nav extends React.Component {
 
   render() {
     let nav = <ul>
-              <li><Link to={"/"}>Home</Link></li>
-              <li><Link to='/about'>About</Link></li>
-            </ul>;
+                <li><Link to={"/"}>Home</Link></li>
+                <li><Link to='/about'>About</Link></li>
+              </ul>;
 
     return (
       <div>

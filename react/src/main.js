@@ -12,8 +12,7 @@ $(function() {
     <Router history={browserHistory}>
       <Route path='/' component={Nav}>
         <IndexRoute component={HomeIndex}/>
-          <Route path='about' component={About}/>
-        <Route/>
+        <Route path='about' component={About}/>
       </Route>
     </Router>,
     document.getElementById('app')

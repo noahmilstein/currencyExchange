@@ -29,6 +29,7 @@ class HomeIndex extends React.Component {
   }
 
   render() {
+    console.log(this.state.latestExchange)
     return (
       <div>
         This is the home index page
