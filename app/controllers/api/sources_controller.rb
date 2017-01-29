@@ -44,6 +44,15 @@ class Api::SourcesController < ApiController
     end
   end
 
+  def compare
+    binding.pry
+    # look at params
+    # should be
+    # params[:value]
+    # params[:from]
+    # params[:to]
+  end
+
   # def create
   # end
 end

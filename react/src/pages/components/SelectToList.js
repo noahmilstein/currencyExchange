@@ -1,7 +1,7 @@
 import React from 'react';
 import Option from './Option';
 
-const SelectList = (props) => {
+const SelectToList = (props) => {
   let options = props.data.map(option => {
     return (
       <Option
@@ -15,11 +15,11 @@ const SelectList = (props) => {
 
   return(
     <div>
-      <select value={props.fromValue} onChange={props.handleChange} name="codeList" form="exchangeForm">
+      <select value={props.toValue} onChange={props.handleChange} name="codeList" form="exchangeForm">
         {options}
       </select>
     </div>
   )
 }
 
-export default SelectList;
+export default SelectToList;
