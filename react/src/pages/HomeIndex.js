@@ -30,7 +30,7 @@ class HomeIndex extends React.Component {
     this.getAPI()
   }
 
-  // onchange calls getcompare which runs the api convert path and updates the output values
+  // onchange calls getcompare() which runs the api convert path and updates the output values
 
   getCompare() {
     $.ajax({

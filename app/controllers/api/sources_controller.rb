@@ -1,5 +1,20 @@
 class Api::SourcesController < ApiController
 
+  def history
+  end
+
+  def latest
+  end
+
+  def compare
+    binding.pry
+    # look at params
+    # should be
+    # params[:value]
+    # params[:from]
+    # params[:to]
+  end
+
   def index
     # url = "https://openexchangerates.org/api/latest.json?app_id=#{ENV[OPEN_EXCHANGE_RATES_API_KEY]}"
     currency_codes = "https://openexchangerates.org/api/currencies.json?app_id=4c6503f41fe84532abec479d9a7aee17"
@@ -42,15 +57,6 @@ class Api::SourcesController < ApiController
       format.json { render json: data_json }
       format.html
     end
-  end
-
-  def compare
-    binding.pry
-    # look at params
-    # should be
-    # params[:value]
-    # params[:from]
-    # params[:to]
   end
 
   # def create
