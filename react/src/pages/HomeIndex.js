@@ -14,12 +14,12 @@ class HomeIndex extends React.Component {
       currencyCodes: [],
       compareFrom: '',
       comapreTo: '',
-      value: '',
-      output: ''
+      inputValue: '',
+      outputValue: ''
     };
     this.setState = this.setState.bind(this);
     this.getAPI = this.getAPI.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
     this.handleConvertSubmit = this.handleConvertSubmit.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
@@ -36,12 +36,12 @@ class HomeIndex extends React.Component {
     $.ajax({
       url: '/api/sources/compare',
       type: 'POST',
-      data: {value: this.state.value, from: this.state.compareFrom, to: this.state.compareTo },
+      data: {value: this.state.inputValue, from: this.state.compareFrom, to: this.state.compareTo },
       contentType: 'application/json'
     })
-    .done(data => {
-      this.setState({ output: data });
-    });
+    // .done(data => {
+    //   this.setState({ outputValue: data });
+    // });
   }
 
   getAPI() {
@@ -61,8 +61,13 @@ class HomeIndex extends React.Component {
   handleToChange(event) {
       this.setState({compareTo: event.target.value});
   }
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleInputChange(event) {
+    console.log("in the method")
+    this.setState({inputValue: event.target.value});
+    this.getCompare()
+  }
+  handleOutputChange(event) {
+    this.setState({outputValue: event.target.value});
     this.getCompare()
   }
 
@@ -70,7 +75,6 @@ class HomeIndex extends React.Component {
   // form that takes in base country(currency) & convert_to country(currency)
   // real time on change number input/output
   // add auto complete to form
-
 
   // handleSubmit(event) {
   //   alert('A name was submitted: ' + this.state.value);
@@ -86,6 +90,7 @@ class HomeIndex extends React.Component {
   // create method to handle input output changes in both directions
 
   render() {
+    console.log(this.state.inputValue)
     return (
       <div>
         This is the home index page
@@ -104,18 +109,17 @@ class HomeIndex extends React.Component {
             <SelectToList
               data={this.state.currencyCodes}
               handleChange={this.handleToChange}
-              toValue={this.state.compareFrom}
+              toValue={this.state.compareTo}
             />
 
             Input:
-            <input type="number" value={this.state.value} onChange={this.handleChange} name="quantity" min="1" max="100000000" step="10" />
+            <input type="number" value={this.state.inputValue} onChange={this.handleInputChange} name="inputQuantity" min="1" max="100000000" />
 
             Output:
-            <input type="number" name="points" min="0" max="100000000" step="10" value={this.state.output} />
+            <input type="number" value={this.state.outputValue} onChange={this.handleOutputChange} name="outputQuantity" min="0" max="100000000" />
 
             <input type="submit" value="Submit" />
           </form>
-
 
         </div>
 
