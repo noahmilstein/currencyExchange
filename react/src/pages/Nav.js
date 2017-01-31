@@ -6,17 +6,17 @@ class Nav extends React.Component {
     super(props);
     this.state = {
     };
-    this.setState = this.setState.bind(this);
+    // this.setState = this.setState.bind(this);
   }
 
-  componentDidMount() {
-  }
+  // componentDidMount() {
+  // }
 
   render() {
     let nav = <ul>
-              <li><Link to={"/"}>Home</Link></li>
-              <li><Link to='/about'>About</Link></li>
-            </ul>;
+                <li><Link to={"/"}>Home</Link></li>
+                <li><Link to='/about'>About</Link></li>
+              </ul>;
 
     return (
       <div>
