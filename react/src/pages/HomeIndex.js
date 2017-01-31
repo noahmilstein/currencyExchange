@@ -20,13 +20,14 @@ class HomeIndex extends React.Component {
     this.setState = this.setState.bind(this);
     this.getAPI = this.getAPI.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleOutputChange = this.handleOutputChange.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleToChange = this.handleToChange.bind(this);
   }
 
-// make more states to account for finalInput && finalOutput
-// values determined in componentDidMount by multiplying or dividing
-// values in fields are set to those states
+  // replace select dropdown with autocomplete
+  // add toggle to switch between autocomplete text input with select dropdown
+  // add option to see compare against all currencies, render in scrollY overflow div
 
   componentDidMount() {
     this.getAPI()
@@ -65,8 +66,9 @@ class HomeIndex extends React.Component {
     })
   }
   handleOutputChange(event) {
-    this.setState({outputValue: event.target.value}, () => {
-      this.getLatestExchange();
+    this.setState({
+      inputValue: ((this.state.inputValue * event.target.value) / this.state.outputValue),
+      outputValue: event.target.value
     })
   }
 
@@ -80,7 +82,7 @@ class HomeIndex extends React.Component {
         contentType: 'application/json'
       })
       .done(data => {
-        this.setState({ outputValue: data.targetRate });
+        this.setState({ outputValue: (data.targetRate * this.state.inputValue) });
       });
     }
   }
