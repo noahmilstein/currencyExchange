@@ -7,14 +7,20 @@ class Api::SourcesController < ApiController
   end
 
   def compare
-    # binding.pry
-    # https://openexchangerates.org/api/convert/19999.95/GBP/EUR?app_id=YOUR_APP_APP_ID
 
-    # look at params
-    # should be
-    value = params[:value]
-    from = params[:from]
-    to = params[:to]
+    # # https://openexchangerates.org/api/convert/19999.95/GBP/EUR?app_id=YOUR_APP_APP_ID
+    # value = params[:value]
+    # from = params[:from]
+    # to = params[:to]
+    # currency_conversion = "https://openexchangerates.org/api/convert/#{value}/#{from}/#{to}?app_id=4c6503f41fe84532abec479d9a7aee17"
+    # # currency_conversion = "https://openexchangerates.org/api/convert//19999.95/GBP/EUR?app_id=4c6503f41fe84532abec479d9a7aee17"
+    # conversion_data = HTTParty.get(currency_conversion)
+    # binding.pry
+    # respond_to do |format|
+    #   format.json { render json: conversion_data }
+    #   format.html
+    # end
+    #
   end
 
   def index

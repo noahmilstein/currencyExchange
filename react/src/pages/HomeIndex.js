@@ -14,36 +14,37 @@ class HomeIndex extends React.Component {
       currencyCodes: [],
       compareFrom: '',
       compareTo: '',
-      inputValue: '',
+      inputValue: 1,
       outputValue: ''
     };
     this.setState = this.setState.bind(this);
     this.getAPI = this.getAPI.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleConvertSubmit = this.handleConvertSubmit.bind(this);
+    // this.handleConvertSubmit = this.handleConvertSubmit.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleToChange = this.handleToChange.bind(this);
   }
+
+  // set base and compare
+  // display base 1 : compare ratio (as h3)
+  // input text field onchange multiplies input by compare and output by base
 
   componentDidMount() {
     this.getAPI()
   }
 
-  // onchange calls getcompare() which runs the api convert path and updates the output values
-
-  getCompare() {
-      let data = JSON.stringify({value: this.state.inputValue, from: this.state.compareFrom, to: this.state.compareTo })
-      $.ajax({
-        url: '/api/sources/compare',
-        type: 'POST',
-        data: data,
-        contentType: 'application/json'
-      })
-    // .done(data => {
-    //   this.setState({ outputValue: data });
-    // });
-  }
+  // getCompare() {
+  //     let data = JSON.stringify({value: this.state.inputValue, from: this.state.compareFrom, to: this.state.compareTo })
+  //     $.ajax({
+  //       url: '/api/sources/compare',
+  //       type: 'POST',
+  //       data: data,
+  //       contentType: 'application/json'
+  //     })
+  //   // .done(data => {
+  //   //   this.setState({ outputValue: data });
+  //   // });
+  // }
 
   getAPI() {
     $.ajax({
@@ -52,7 +53,7 @@ class HomeIndex extends React.Component {
       contentType: 'application/json'
     })
     .done(data => {
-      this.setState({ latestExchange: data.rates, base: data.base, timestamp: data.queryTime, currencyCodes: data.currencyCodes });
+      this.setState({ currencyCodes: data.currencyCodes });
     });
   }
 
@@ -64,45 +65,52 @@ class HomeIndex extends React.Component {
   }
   handleInputChange(event) {
     this.setState({inputValue: event.target.value}
-      // ,
-      // this.getCompare()
-    );
+    //   , () => {
+    //   this.getCompare();
+    // }
+    )
   }
   handleOutputChange(event) {
     this.setState({outputValue: event.target.value}
-      // ,
-      // this.getCompare()
-    );
-  }
-
-  // currency convertor
-  // form that takes in base country(currency) & convert_to country(currency)
-  // real time on change number input/output
-  // add auto complete to form
-
-  // handleSubmit(event) {
-  //   alert('A name was submitted: ' + this.state.value);
-  //   event.preventDefault();
-  // }
-
-  handleConvertSubmit(e) {
-    // this should be redundant with onChange working
-    console.log(e)
-    debugger
+    //   , () => {
+    //   this.getCompare();
+    // }
+    )
   }
 
   // create method to handle input output changes in both directions
 
+  getLatestExchange(base) {
+      // AND RESUME WORK HERE
+  }
+
   render() {
-    console.log(`this dot state dot inputValue === ${this.state.inputValue}`)
+    let usethislater = <div>
+      <CurrencyList
+        // data={this.state.latestExchange}
+      />
+    </div>;
+    let inputOutput;
+    if (this.state.compareFrom !== '' && this.state.compareTo !== '') {
+      // if user selects two currencies, make ajax post call with selected base comparitor
+      // RESUME WORK HERE
+      this.getLatestExchange(this.state.compareFrom)
+      inputOutput = <div>
+        Input:
+        <input type="number" value={this.state.inputValue} onChange={this.handleInputChange} name="inputQuantity" min="1" max="100000000" />
+        Output:
+        <input type="number" value={this.state.outputValue} onChange={this.handleOutputChange} name="outputQuantity" min="0" max="100000000" />
+        <input type="submit" value="Submit" />
+      </div>;
+    }
+
     return (
       <div>
         This is the home index page
-
         <div>
           This is the form div
-          <form onSubmit={this.handleConvertSubmit}>
-
+          {/* <form onSubmit={this.handleConvertSubmit}> */}
+          <form>
             From:
             <SelectFromList
               data={this.state.currencyCodes}
@@ -115,24 +123,9 @@ class HomeIndex extends React.Component {
               handleChange={this.handleToChange}
               toValue={this.state.compareTo}
             />
-
-            Input:
-            <input type="number" value={this.state.inputValue} onChange={this.handleInputChange} name="inputQuantity" min="1" max="100000000" />
-
-            Output:
-            <input type="number" value={this.state.outputValue} onChange={this.handleOutputChange} name="outputQuantity" min="0" max="100000000" />
-
-            <input type="submit" value="Submit" />
+            {inputOutput}
           </form>
-
         </div>
-
-        <div>
-          <CurrencyList
-            data={this.state.latestExchange}
-          />
-        </div>
-
       </div>
     );
   }
