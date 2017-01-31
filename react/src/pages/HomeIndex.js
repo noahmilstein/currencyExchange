@@ -23,9 +23,13 @@ class HomeIndex extends React.Component {
     this.handleOutputChange = this.handleOutputChange.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleToChange = this.handleToChange.bind(this);
+
+    this.displayMatches = this.displayMatches.bind(this);
+    this.findMatches = this.findMatches.bind(this);
   }
 
   // replace select dropdown with autocomplete
+  // render autocomplete results in hidden span with scrollY overflow
   // add toggle to switch between autocomplete text input with select dropdown
   // add option to see compare against all currencies, render in scrollY overflow div
 
@@ -34,6 +38,9 @@ class HomeIndex extends React.Component {
     if (this.state.firstQueryTranspired) {
       this.getLatestExchange()
     }
+    const searchInput = document.querySelector('.search');
+    searchInput.addEventListener('change', this.displayMatches);
+    searchInput.addEventListener('keyup', this.displayMatches);
   }
 
   getAPI() {
@@ -87,6 +94,28 @@ class HomeIndex extends React.Component {
     }
   }
 
+  findMatches(wordToMatch, currencies) {
+    return currencies.filter(currency => {
+      const regex = new RegExp(wordToMatch, 'gi');
+      return currency.expansion.match(regex) || currency.abbreviation.match(regex);
+    })
+  }
+
+  displayMatches(event) {
+    const matchArray = this.findMatches(event.target.value, this.state.currencyCodes);
+    const html = matchArray.map(currency => {
+      const regex = new RegExp(event.target.value, 'gi');
+      const expandedName = currency.expansion.replace(regex, `<span class="hl">${event.target.value}</span>`);
+      const abbreviatedName = currency.expansion.replace(regex, `<span class="hl">${event.target.value}</span>`);
+      return `
+        <li>
+          <span className="searchResult">${expandedName}, ${abbreviatedName}</span>
+        </li>
+      `;
+    }).join('');
+    document.querySelector('.suggestions').innerHTML = html
+  }
+
   render() {
     // reveal this with button click to view all
     // display in scrollY div
@@ -102,6 +131,11 @@ class HomeIndex extends React.Component {
         <div>
           This is the form div
           <form>
+            <input type="text" className="search" placeholder="Country or Currency"/>
+            <ul className="suggestions">
+              <li>Filter for a country</li>
+            </ul>
+
             From:
             <SelectFromList
               data={this.state.currencyCodes}
