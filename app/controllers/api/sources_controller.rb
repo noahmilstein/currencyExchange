@@ -7,12 +7,14 @@ class Api::SourcesController < ApiController
   end
 
   def compare
-    binding.pry
+    # binding.pry
+    # https://openexchangerates.org/api/convert/19999.95/GBP/EUR?app_id=YOUR_APP_APP_ID
+
     # look at params
     # should be
-    # params[:value]
-    # params[:from]
-    # params[:to]
+    value = params[:value]
+    from = params[:from]
+    to = params[:to]
   end
 
   def index

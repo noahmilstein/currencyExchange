@@ -13,7 +13,7 @@ class HomeIndex extends React.Component {
       timestamp: '',
       currencyCodes: [],
       compareFrom: '',
-      comapreTo: '',
+      compareTo: '',
       inputValue: '',
       outputValue: ''
     };
@@ -33,12 +33,13 @@ class HomeIndex extends React.Component {
   // onchange calls getcompare() which runs the api convert path and updates the output values
 
   getCompare() {
-    $.ajax({
-      url: '/api/sources/compare',
-      type: 'POST',
-      data: {value: this.state.inputValue, from: this.state.compareFrom, to: this.state.compareTo },
-      contentType: 'application/json'
-    })
+      let data = JSON.stringify({value: this.state.inputValue, from: this.state.compareFrom, to: this.state.compareTo })
+      $.ajax({
+        url: '/api/sources/compare',
+        type: 'POST',
+        data: data,
+        contentType: 'application/json'
+      })
     // .done(data => {
     //   this.setState({ outputValue: data });
     // });
@@ -62,13 +63,16 @@ class HomeIndex extends React.Component {
       this.setState({compareTo: event.target.value});
   }
   handleInputChange(event) {
-    console.log("in the method")
-    this.setState({inputValue: event.target.value});
-    this.getCompare()
+    this.setState({inputValue: event.target.value}
+      // ,
+      // this.getCompare()
+    );
   }
   handleOutputChange(event) {
-    this.setState({outputValue: event.target.value});
-    this.getCompare()
+    this.setState({outputValue: event.target.value}
+      // ,
+      // this.getCompare()
+    );
   }
 
   // currency convertor
@@ -90,7 +94,7 @@ class HomeIndex extends React.Component {
   // create method to handle input output changes in both directions
 
   render() {
-    console.log(this.state.inputValue)
+    console.log(`this dot state dot inputValue === ${this.state.inputValue}`)
     return (
       <div>
         This is the home index page
