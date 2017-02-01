@@ -28,8 +28,10 @@ class HomeIndex extends React.Component {
     this.findMatches = this.findMatches.bind(this);
   }
 
-  // replace select dropdown with autocomplete
+  // break autocomplete inputs into stateful components
+  // give each li an event listener that sets the state of compareFrom and compareTo
   // render autocomplete results in hidden span with scrollY overflow
+  // style drowndown output to hover over divs
   // add toggle to switch between autocomplete text input with select dropdown
   // add option to see compare against all currencies, render in scrollY overflow div
 
@@ -55,6 +57,7 @@ class HomeIndex extends React.Component {
   }
 
   handleFromChange(event) {
+    console.log(event.target.value)
     this.setState({compareFrom: event.target.value}, () => {
       this.getLatestExchange();
     })
@@ -107,11 +110,15 @@ class HomeIndex extends React.Component {
       const regex = new RegExp(event.target.value, 'gi');
       const expandedName = currency.expansion.replace(regex, `<span class="hl">${event.target.value}</span>`);
       const abbreviatedName = currency.expansion.replace(regex, `<span class="hl">${event.target.value}</span>`);
-      return `
-        <li>
-          <span className="searchResult">${expandedName}, ${abbreviatedName}</span>
-        </li>
-      `;
+      if (event.target.value === '') {
+        return;
+      } else {
+        return `
+          <li>
+            <span className="searchResult">${expandedName}, ${abbreviatedName}</span>
+          </li>
+        `;
+      }
     }).join('');
     document.querySelector('.suggestions').innerHTML = html
   }
@@ -131,7 +138,8 @@ class HomeIndex extends React.Component {
         <div>
           This is the form div
           <form>
-            <input type="text" className="search" placeholder="Country or Currency"/>
+
+            <input type="text" className="search" placeholder="Country or Currency" />
             <ul className="suggestions">
               <li>Filter for a country</li>
             </ul>
@@ -148,12 +156,14 @@ class HomeIndex extends React.Component {
               handleChange={this.handleToChange}
               toValue={this.state.compareTo}
             />
+
             <div style={{display: (this.state.compareFrom !== '' && this.state.compareTo !== '') ? 'block' : 'none' }}>
               Input:
               <input type="number" value={this.state.inputValue} onChange={this.handleInputChange} name="inputQuantity" min="1" max="100000000" />
               Output:
               <input type="number" value={this.state.outputValue} onChange={this.handleOutputChange} name="outputQuantity" min="0" max="100000000" />
             </div>
+
           </form>
         </div>
       </div>
