@@ -2,6 +2,7 @@ import React from 'react';
 import CurrencyList from './components/CurrencyList';
 import SelectFromList from './components/SelectFromList';
 import SelectToList from './components/SelectToList';
+import SearchResultFromList from './components/SearchResultFromList';
 
 class HomeIndex extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class HomeIndex extends React.Component {
       compareTo: '',
       inputValue: 1,
       outputValue: '',
-      firstQueryTranspired: false
+      searchResults: []
     };
     this.setState = this.setState.bind(this);
     this.getAPI = this.getAPI.bind(this);
@@ -29,7 +30,10 @@ class HomeIndex extends React.Component {
   }
 
   // break autocomplete inputs into stateful components
-  // wire subcomponents to dynamically set state 
+    // pass in methods first,
+      // then pass in data that methods require to function
+
+  // wire subcomponents to dynamically set state
     // give each li an event listener that sets the state of compareFrom and compareTo
   // render autocomplete results in hidden span with scrollY overflow
   // style drowndown output to hover over divs
@@ -38,12 +42,6 @@ class HomeIndex extends React.Component {
 
   componentDidMount() {
     this.getAPI()
-    if (this.state.firstQueryTranspired) {
-      this.getLatestExchange()
-    }
-    const searchInput = document.querySelector('.search');
-    searchInput.addEventListener('change', this.displayMatches);
-    searchInput.addEventListener('keyup', this.displayMatches);
   }
 
   getAPI() {
@@ -58,15 +56,15 @@ class HomeIndex extends React.Component {
   }
 
   handleFromChange(event) {
-    console.log(event.target.value)
+    // console.log(event)
+    console.log(event.target)
+    debugger
+    // console.log(event.target.value)
     this.setState({compareFrom: event.target.value}, () => {
       this.getLatestExchange();
     })
   }
   handleToChange(event) {
-    if (this.state.firstQueryTranspired === false) {
-      this.setState({firstQueryTranspired: true});
-    }
     this.setState({compareTo: event.target.value}, () => {
       this.getLatestExchange();
     })
@@ -106,22 +104,45 @@ class HomeIndex extends React.Component {
   }
 
   displayMatches(event) {
+    let resultsArray = [];
     const matchArray = this.findMatches(event.target.value, this.state.currencyCodes);
     const html = matchArray.map(currency => {
       const regex = new RegExp(event.target.value, 'gi');
-      const expandedName = currency.expansion.replace(regex, `<span class="hl">${event.target.value}</span>`);
-      const abbreviatedName = currency.expansion.replace(regex, `<span class="hl">${event.target.value}</span>`);
+      const expandedName = currency.expansion.replace(regex, `${event.target.value}`);
+      const abbreviatedName = currency.abbreviation.replace(regex, `${event.target.value}`);
       if (event.target.value === '') {
+        resultsArray = '';
         return;
       } else {
-        return `
-          <li>
-            <span className="searchResult">${expandedName}, ${abbreviatedName}</span>
-          </li>
-        `;
+        resultsArray.push({expanded: expandedName, abbreviated: abbreviatedName, id: currency.id})
+        // return `
+        //   <li>
+        //     <span className="searchResult">${expandedName}, ${abbreviatedName}</span>
+        //   </li>
+        // `;
       }
-    }).join('');
-    document.querySelector('.suggestions').innerHTML = html
+    })
+    // .join('');
+    // document.querySelector('.suggestions').innerHTML = html
+
+    this.setState({searchResults: resultsArray})
+
+    // const matchArray = this.findMatches(event.target.value, this.state.currencyCodes);
+    // const html = matchArray.map(currency => {
+    //   const regex = new RegExp(event.target.value, 'gi');
+    //   const expandedName = currency.expansion.replace(regex, `<span class="hl">${event.target.value}</span>`);
+    //   const abbreviatedName = currency.abbreviation.replace(regex, `<span class="hl">${event.target.value}</span>`);
+    //   if (event.target.value === '') {
+    //     return;
+    //   } else {
+    //     return `
+    //       <li>
+    //         <span className="searchResult">${expandedName}, ${abbreviatedName}</span>
+    //       </li>
+    //     `;
+    //   }
+    // }).join('');
+    // document.querySelector('.suggestions').innerHTML = html
   }
 
   render() {
@@ -139,11 +160,18 @@ class HomeIndex extends React.Component {
         <div>
           This is the form div
           <form>
+            <SearchResultFromList
+              data={this.state.searchResults}
+              handleChange={this.displayMatches}
+              handleKeyUp={this.displayMatches}
+              fromChange={this.handleFromChange}
+              // fromValue={this.state.compareFrom}
+            />
 
-            <input type="text" className="search" placeholder="Country or Currency" />
+            {/* <input type="text" className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
             <ul className="suggestions">
               <li>Filter for a country</li>
-            </ul>
+            </ul> */}
 
             From:
             <SelectFromList
