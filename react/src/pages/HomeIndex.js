@@ -3,6 +3,7 @@ import CurrencyList from './components/CurrencyList';
 import SelectFromList from './components/SelectFromList';
 import SelectToList from './components/SelectToList';
 import SearchResultFromList from './components/SearchResultFromList';
+import SearchResultToList from './components/SearchResultToList';
 
 class HomeIndex extends React.Component {
   constructor(props) {
@@ -24,17 +25,12 @@ class HomeIndex extends React.Component {
     this.handleOutputChange = this.handleOutputChange.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleToChange = this.handleToChange.bind(this);
-
+    this.focusFromHandler = this.focusFromHandler.bind(this);
+    this.focusToHandler = this.focusToHandler.bind(this);
     this.displayMatches = this.displayMatches.bind(this);
     this.findMatches = this.findMatches.bind(this);
   }
 
-  // break autocomplete inputs into stateful components
-    // pass in methods first,
-      // then pass in data that methods require to function
-
-  // wire subcomponents to dynamically set state
-    // give each li an event listener that sets the state of compareFrom and compareTo
   // render autocomplete results in hidden span with scrollY overflow
   // style drowndown output to hover over divs
   // add toggle to switch between autocomplete text input with select dropdown
@@ -56,17 +52,23 @@ class HomeIndex extends React.Component {
   }
 
   handleFromChange(event) {
-    // console.log(event)
-    console.log(event.target)
-    debugger
-    // console.log(event.target.value)
-    this.setState({compareFrom: event.target.value}, () => {
+    const output = {state: event.currentTarget.attributes.value.value, input: event.currentTarget.attributes.name.value }
+    this.setState({
+      compareFrom: output.state,
+      searchResults: []
+    }, () => {
       this.getLatestExchange();
+      this.fromFieldInput.value = output.input
     })
   }
   handleToChange(event) {
-    this.setState({compareTo: event.target.value}, () => {
+    const output = {state: event.currentTarget.attributes.value.value, input: event.currentTarget.attributes.name.value }
+    this.setState({
+      compareTo: output.state,
+      searchResults: []
+    }, () => {
       this.getLatestExchange();
+      this.toFieldInput.value = output.input
     })
   }
   handleInputChange(event) {
@@ -111,38 +113,45 @@ class HomeIndex extends React.Component {
       const expandedName = currency.expansion.replace(regex, `${event.target.value}`);
       const abbreviatedName = currency.abbreviation.replace(regex, `${event.target.value}`);
       if (event.target.value === '') {
-        resultsArray = '';
+        resultsArray = [];
         return;
       } else {
         resultsArray.push({expanded: expandedName, abbreviated: abbreviatedName, id: currency.id})
-        // return `
-        //   <li>
-        //     <span className="searchResult">${expandedName}, ${abbreviatedName}</span>
-        //   </li>
-        // `;
       }
     })
-    // .join('');
-    // document.querySelector('.suggestions').innerHTML = html
-
     this.setState({searchResults: resultsArray})
+  }
 
-    // const matchArray = this.findMatches(event.target.value, this.state.currencyCodes);
-    // const html = matchArray.map(currency => {
-    //   const regex = new RegExp(event.target.value, 'gi');
-    //   const expandedName = currency.expansion.replace(regex, `<span class="hl">${event.target.value}</span>`);
-    //   const abbreviatedName = currency.abbreviation.replace(regex, `<span class="hl">${event.target.value}</span>`);
-    //   if (event.target.value === '') {
-    //     return;
-    //   } else {
-    //     return `
-    //       <li>
-    //         <span className="searchResult">${expandedName}, ${abbreviatedName}</span>
-    //       </li>
-    //     `;
-    //   }
-    // }).join('');
-    // document.querySelector('.suggestions').innerHTML = html
+  focusFromHandler() {
+    const target = this.fromListField.childNodes[0].children[0];
+    const _this = this;
+    setTimeout(function() {
+      if (target.style.display === 'none') {
+        target.style.display = 'block';
+      } else {
+        target.style.display = 'none';
+        _this.setState({ searchResults: [] });
+        if (_this.fromFieldInput.value === '') {
+          _this.setState({ compareFrom: '' })
+        }
+      }
+    }, 100)
+  }
+
+  focusToHandler() {
+    const target = this.toListField.childNodes[0].children[0];
+    const _this = this;
+    setTimeout(function() {
+      if (target.style.display === 'none') {
+        target.style.display = 'block';
+      } else {
+        target.style.display = 'none';
+        _this.setState({ searchResults: [] });
+        if (_this.toFieldInput.value === '') {
+          _this.setState({ compareTo: '' })
+        }
+      }
+    }, 100)
   }
 
   render() {
@@ -160,31 +169,41 @@ class HomeIndex extends React.Component {
         <div>
           This is the form div
           <form>
-            <SearchResultFromList
-              data={this.state.searchResults}
-              handleChange={this.displayMatches}
-              handleKeyUp={this.displayMatches}
-              fromChange={this.handleFromChange}
-              // fromValue={this.state.compareFrom}
-            />
-
-            {/* <input type="text" className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
-            <ul className="suggestions">
-              <li>Filter for a country</li>
-            </ul> */}
-
             From:
-            <SelectFromList
-              data={this.state.currencyCodes}
-              handleChange={this.handleFromChange}
-              fromValue={this.state.compareFrom}
-            />
-            To:
-            <SelectToList
-              data={this.state.currencyCodes}
-              handleChange={this.handleToChange}
-              toValue={this.state.compareTo}
-            />
+            <input type="text" onBlur={this.focusFromHandler} onFocus={this.focusFromHandler} ref={(input) => { this.fromFieldInput = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
+            <span ref={(span) => { this.fromListField = span}} >
+              <SearchResultFromList
+                data={this.state.searchResults}
+                fromChange={this.handleFromChange}
+                fromValue={this.state.compareFrom}
+              />
+            </span>
+
+              To:
+              <input type="text" onBlur={this.focusToHandler} onFocus={this.focusToHandler} ref={(input) => { this.toFieldInput = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
+              <span ref={(span) => { this.toListField = span}} >
+                <SearchResultToList
+                  data={this.state.searchResults}
+                  toChange={this.handleToChange}
+                  toValue={this.state.compareTo}
+                />
+            </span>
+
+            {/* <div>
+              To be rendered with toggle
+              From:
+              <SelectFromList
+                data={this.state.currencyCodes}
+                handleChange={this.handleFromChange}
+                fromValue={this.state.compareFrom}
+              />
+              To:
+              <SelectToList
+                data={this.state.currencyCodes}
+                handleChange={this.handleToChange}
+                toValue={this.state.compareTo}
+              />
+            </div> */}
 
             <div style={{display: (this.state.compareFrom !== '' && this.state.compareTo !== '') ? 'block' : 'none' }}>
               Input:

@@ -1,7 +1,7 @@
 import React from 'react';
 import ResultItem from './ResultItem';
 
-const SearchResultFromList = (props) => {
+const SearchResultToList = (props) => {
   let results = props.data.map(result => {
     return (
       <ResultItem
@@ -9,7 +9,7 @@ const SearchResultFromList = (props) => {
         id={result.id}
         abbreviation={result.abbreviated}
         expansion={result.expanded}
-        handleClick={props.fromChange}
+        handleClick={props.toChange}
       />
     )
   })
@@ -23,4 +23,4 @@ const SearchResultFromList = (props) => {
   )
 }
 
-export default SearchResultFromList;
+export default SearchResultToList;
