@@ -36,6 +36,8 @@ class HomeIndex extends React.Component {
   // add toggle to switch between autocomplete text input with select dropdown
   // add option to see compare against all currencies, render in scrollY overflow div
 
+  // view all rates (from selected base)
+
   componentDidMount() {
     this.getAPI()
   }
