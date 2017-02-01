@@ -29,7 +29,8 @@ class HomeIndex extends React.Component {
   }
 
   // break autocomplete inputs into stateful components
-  // give each li an event listener that sets the state of compareFrom and compareTo
+  // wire subcomponents to dynamically set state 
+    // give each li an event listener that sets the state of compareFrom and compareTo
   // render autocomplete results in hidden span with scrollY overflow
   // style drowndown output to hover over divs
   // add toggle to switch between autocomplete text input with select dropdown
