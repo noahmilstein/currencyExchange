@@ -21,7 +21,7 @@ class Api::SourcesController < ApiController
       end
     end
 
-    data_json = { targetRate: target_rate }
+    data_json = { targetRate: target_rate, timestamp: timestamp }
 
     respond_to do |format|
       format.json { render json: data_json }

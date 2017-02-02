@@ -96,7 +96,7 @@ class HomeIndex extends React.Component {
         contentType: 'application/json'
       })
       .done(data => {
-        this.setState({ outputValue: (data.targetRate * this.state.inputValue) });
+        this.setState({ outputValue: (parseFloat(data.targetRate * this.state.inputValue)), timestamp: data.timestamp });
       });
     }
   }
@@ -164,6 +164,12 @@ class HomeIndex extends React.Component {
   }
 
   render() {
+
+    let timestamp = new Date(this.state.timestamp).toString();
+    // getDate() // Returns the date
+    // getMonth() // Returns the month
+    // getFullYear() // Returns the year
+
     // reveal this with button click to view all
     // display in scrollY div
     // let usethislater = <div>
@@ -172,7 +178,6 @@ class HomeIndex extends React.Component {
     //   />
     // </div>;
 
-    console.log(this.state.outputValue)
     return (
       <div>
         This is the home index page
@@ -225,6 +230,7 @@ class HomeIndex extends React.Component {
               <input type="number" value={this.state.inputValue} onChange={this.handleInputChange} name="inputQuantity" min="1" max="100000000" />
               Output:
               <input type="number" value={this.state.outputValue} onChange={this.handleOutputChange} name="outputQuantity" min="0" max="100000000" />
+              <div>Rate Timestamp: {timestamp}</div>
             </div>
 
           </form>
