@@ -9,7 +9,7 @@ class Api::SourcesController < ApiController
   def latest_exchange
     compareFrom = params[:compareFrom]
     compareTo = params[:compareTo]
-    latest = "https://openexchangerates.org/api/latest.json?app_id=4c6503f41fe84532abec479d9a7aee17&base=#{compareFrom}"
+    latest = "https://openexchangerates.org/api/latest.json?app_id=#{ENV['OPEN_EXCHANGE_RATES_API_KEY']}&base=#{compareFrom}"
     base = HTTParty.get(latest)['base']
     rates = HTTParty.get(latest)['rates']
     timestamp = HTTParty.get(latest)['timestamp']
@@ -45,8 +45,8 @@ class Api::SourcesController < ApiController
     # value = params[:value]
     # from = params[:from]
     # to = params[:to]
-    # currency_conversion = "https://openexchangerates.org/api/convert/#{value}/#{from}/#{to}?app_id=4c6503f41fe84532abec479d9a7aee17"
-    # # currency_conversion = "https://openexchangerates.org/api/convert//19999.95/GBP/EUR?app_id=4c6503f41fe84532abec479d9a7aee17"
+    # currency_conversion = "https://openexchangerates.org/api/convert/#{value}/#{from}/#{to}?app_id=#{ENV['OPEN_EXCHANGE_RATES_API_KEY']}"
+    # # currency_conversion = "https://openexchangerates.org/api/convert//19999.95/GBP/EUR?app_id=#{ENV['OPEN_EXCHANGE_RATES_API_KEY']}"
     # conversion_data = HTTParty.get(currency_conversion)
     # binding.pry
     # respond_to do |format|
@@ -57,8 +57,7 @@ class Api::SourcesController < ApiController
   end
 
   def index
-    # url = "https://openexchangerates.org/api/latest.json?app_id=#{ENV[OPEN_EXCHANGE_RATES_API_KEY]}"
-    currency_codes = "https://openexchangerates.org/api/currencies.json?app_id=4c6503f41fe84532abec479d9a7aee17"
+    currency_codes = "https://openexchangerates.org/api/currencies.json?app_id=#{ENV['OPEN_EXCHANGE_RATES_API_KEY']}"
     code_data = HTTParty.get(currency_codes)
 
     new_code_data = []

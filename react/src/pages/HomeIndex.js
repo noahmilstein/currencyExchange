@@ -172,8 +172,7 @@ class HomeIndex extends React.Component {
     //   />
     // </div>;
 
-    let toggleSelect;
-
+    console.log(this.state.outputValue)
     return (
       <div>
         This is the home index page
