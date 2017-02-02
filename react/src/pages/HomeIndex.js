@@ -29,6 +29,7 @@ class HomeIndex extends React.Component {
     this.focusToHandler = this.focusToHandler.bind(this);
     this.displayMatches = this.displayMatches.bind(this);
     this.findMatches = this.findMatches.bind(this);
+    this.toggleHandler = this.toggleHandler.bind(this)
   }
 
   // render autocomplete results in hidden span with scrollY overflow
@@ -156,43 +157,39 @@ class HomeIndex extends React.Component {
     }, 100)
   }
 
+  toggleHandler() {
+    this.autocompleteInput.style.display === 'none' ? this.autocompleteInput.style.display = 'inline-block' : this.autocompleteInput.style.display = 'none';
+    this.selectDropdown.style.display === 'none' ? this.selectDropdown.style.display = 'inline-block' : this.selectDropdown.style.display = 'none';
+    this.toggleButton.textContent === 'Search' ? this.toggleButton.textContent = 'Select' : this.toggleButton.textContent = 'Search';
+  }
+
   render() {
     // reveal this with button click to view all
     // display in scrollY div
-    let usethislater = <div>
-      <CurrencyList
-        // data={this.state.latestExchange}
-      />
-    </div>;
+    // let usethislater = <div>
+    //   <CurrencyList
+    //     data={this.state.latestExchange}
+    //   />
+    // </div>;
+
+    let toggleSelect;
 
     return (
       <div>
         This is the home index page
         <div>
           This is the form div
-          <form>
-            From:
-            <input type="text" onBlur={this.focusFromHandler} onFocus={this.focusFromHandler} ref={(input) => { this.fromFieldInput = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
-            <span ref={(span) => { this.fromListField = span}} >
-              <SearchResultFromList
-                data={this.state.searchResults}
-                fromChange={this.handleFromChange}
-                fromValue={this.state.compareFrom}
-              />
-            </span>
+          <button onClick={this.toggleHandler} ref={(button) => { this.toggleButton = button}}>Select</button>
 
+          <form>
+            <div className="autoCompleteInput" ref={(div) => { this.autocompleteInput = div}} style={{display:'inline-block'}}>
+              From:
+              <input type="text" onBlur={this.focusFromHandler} onFocus={this.focusFromHandler} ref={(input) => { this.fromFieldInput = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
               To:
               <input type="text" onBlur={this.focusToHandler} onFocus={this.focusToHandler} ref={(input) => { this.toFieldInput = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
-              <span ref={(span) => { this.toListField = span}} >
-                <SearchResultToList
-                  data={this.state.searchResults}
-                  toChange={this.handleToChange}
-                  toValue={this.state.compareTo}
-                />
-            </span>
+            </div>
 
-            {/* <div>
-              To be rendered with toggle
+            <div ref={(div) => { this.selectDropdown = div}} style={{display:'none'}}>
               From:
               <SelectFromList
                 data={this.state.currencyCodes}
@@ -205,7 +202,24 @@ class HomeIndex extends React.Component {
                 handleChange={this.handleToChange}
                 toValue={this.state.compareTo}
               />
-            </div> */}
+            </div>
+
+            <div className="autoCompleteDropDown">
+              <div ref={(div) => { this.fromListField = div}} >
+                <SearchResultFromList
+                  data={this.state.searchResults}
+                  fromChange={this.handleFromChange}
+                  fromValue={this.state.compareFrom}
+                />
+              </div>
+              <div ref={(div) => { this.toListField = div}} >
+                <SearchResultToList
+                  data={this.state.searchResults}
+                  toChange={this.handleToChange}
+                  toValue={this.state.compareTo}
+                />
+              </div>
+            </div>
 
             <div style={{display: (this.state.compareFrom !== '' && this.state.compareTo !== '') ? 'block' : 'none' }}>
               Input:
