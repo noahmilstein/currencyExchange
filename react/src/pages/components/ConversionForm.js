@@ -7,12 +7,17 @@ class ConversionForm extends React.Component {
     this.state = {
       searchResults: [],
       compareFrom: null,
-      compareTo: null
+      compareTo: null,
+      inputValue: 1,
+      outputValue: ''
     };
     this.findMatches = this.findMatches.bind(this);
     this.displayMatches = this.displayMatches.bind(this);
     this.setState = this.setState.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
+    this.focusHandler = this.focusHandler.bind(this);
+    this.getLatestExchange = this.getLatestExchange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   findMatches(wordToMatch, currencies) {
@@ -40,12 +45,68 @@ class ConversionForm extends React.Component {
   }
 
   clickHandler(e) {
-    const selectedExpansion = e.currentTarget.attributes.value.value
-    if (e.currentTarget.attributes.name.value === 'inputFrom') {
-      this.setState({ compareFrom: selectedExpansion })
-    } else if (e.currentTarget.attributes.name.value === 'inputTo') {
-      this.setState({ compareTo: selectedExpansion })
+    const selectedLi = e.currentTarget.attributes
+    const currencyName = this.props.currencyCodes.find(currency => currency.abbreviation === selectedLi.value.value.toUpperCase())
+    if (selectedLi.name.value === 'inputFrom') {
+      this.setState({
+        compareFrom: { abbreviated: selectedLi.value.value.toUpperCase(), expanded: currencyName.expansion },
+        searchResults: []
+      }, () => {
+        this.resultListFrom.style.display = 'none';
+        this.resultListTo.style.display = 'none';
+        this.fromInputField.value = currencyName.expansion;
+      })
+    } else if (selectedLi.name.value === 'inputTo') {
+      this.setState({
+        compareTo: { abbreviated: selectedLi.value.value.toUpperCase(), expanded: currencyName.expansion },
+        searchResults: []
+      }, () => {
+        this.resultListFrom.style.display = 'none';
+        this.resultListTo.style.display = 'none';
+        this.toInputField.value = currencyName.expansion;
+        this.getLatestExchange()
+      })
     }
+  }
+
+  focusHandler(e) {
+    if (e.target.name === "compareFromInput") {
+      if (this.state.compareFrom !== null) {
+        e.target.value = this.state.compareFrom.expanded
+      }
+      this.resultListFrom.style.display = 'block'
+      this.resultListTo.style.display = 'none'
+    } else if (e.target.name === "compareToInput") {
+      if (this.state.compareTo !== null) {
+        e.target.value = this.state.compareTo.expanded
+      }
+      this.resultListTo.style.display = 'block'
+      this.resultListFrom.style.display = 'none'
+    }
+  }
+
+  getLatestExchange() {
+    if (this.state.compareFrom !== '' && this.state.compareTo !== '') {
+      let data = JSON.stringify({compareFrom: this.state.compareFrom.abbreviated, compareTo: this.state.compareTo.abbreviated })
+      $.ajax({
+        url: '/api/sources/latest_exchange',
+        type: 'POST',
+        data: data,
+        contentType: 'application/json'
+      })
+      .done(data => {
+        this.setState({ outputValue: (parseFloat(data.targetRate * this.state.inputValue)) });
+      });
+    }
+  }
+
+  handleChange(e) {
+    if (e.target.name === 'outputQuantity') {
+      this.setState({ outputValue: e.target.value })
+    } else if (e.target.name === 'inputQuantity') {
+      this.setState({ inputValue: e.target.value })
+    }
+    this.getLatestExchange()
   }
 
   render() {
@@ -55,11 +116,11 @@ class ConversionForm extends React.Component {
         <form>
           <div className="autoCompleteInput" ref={(div) => { this.autocompleteFrom = div}} style={{display:'inline-block'}}>
             From:
-            <input type="text" ref={(input) => { this.fromInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
+            <input type="text" name="compareFromInput" onFocus={this.focusHandler} ref={(input) => { this.fromInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
             To:
-            <input type="text" ref={(input) => { this.toInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
+            <input type="text" name="compareToInput" onFocus={this.focusHandler} ref={(input) => { this.toInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
 
-            <span style={{display: (this.state.compareFrom === null) ? 'block' : 'none' }}>
+            <span ref={(span) => { this.resultListFrom = span }} style={{display: (this.state.compareFrom === null) ? 'block' : 'none' }}>
               <h2>This is the from list</h2>
               <SearchResultList
                 name='inputFrom'
@@ -67,7 +128,7 @@ class ConversionForm extends React.Component {
                 clickHandler={this.clickHandler}
               />
             </span>
-            <span style={{display: (this.state.compareFrom === null) ? 'none' : 'block' }}>
+            <span ref={(span) => { this.resultListTo = span }} style={{display: (this.state.compareFrom === null) ? 'none' : 'block' }}>
               <h2>This is the to list</h2>
               <SearchResultList
                 name='inputTo'
@@ -75,6 +136,14 @@ class ConversionForm extends React.Component {
                 clickHandler={this.clickHandler}
               />
             </span>
+
+            <div style={{display: (this.state.compareTo === null) ? 'none' : 'block' }}>
+              Input:
+              <input type="number" value={this.state.inputValue} onChange={this.handleChange} name="inputQuantity" min="1" max="100000000" />
+              Output:
+              <input type="number" value={this.state.outputValue} onChange={this.handleChange} name="outputQuantity" min="0" max="100000000" />
+            </div>
+
           </div>
         </form>
       </div>
@@ -83,34 +152,3 @@ class ConversionForm extends React.Component {
 };
 
 export default ConversionForm;
-
-{/* <div className="autoCompleteInput" ref={(div) => { this.autocompleteInput = div}} style={{display:'inline-block'}}>
-  From:
-  <input type="text" onBlur={this.focusFromHandler} onFocus={this.focusFromHandler} ref={(input) => { this.fromFieldInput = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
-  To:
-  <input type="text" onBlur={this.focusToHandler} onFocus={this.focusToHandler} ref={(input) => { this.toFieldInput = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
-</div>
-
-<div className="autoCompleteDropDown">
-  <div ref={(div) => { this.fromListField = div}} >
-    <SearchResultFromList
-      data={this.state.searchResults}
-      fromChange={this.handleFromChange}
-      fromValue={this.state.compareFrom}
-    />
-  </div>
-  <div ref={(div) => { this.toListField = div}} >
-    <SearchResultToList
-      data={this.state.searchResults}
-      toChange={this.handleToChange}
-      toValue={this.state.compareTo}
-    />
-  </div>
-</div>
-
-<div style={{display: (this.state.compareFrom !== '' && this.state.compareTo !== '') ? 'block' : 'none' }}>
-  Input:
-  <input type="number" value={this.state.inputValue} onChange={this.handleInputChange} name="inputQuantity" min="1" max="100000000" />
-  Output:
-  <input type="number" value={this.state.outputValue} onChange={this.handleOutputChange} name="outputQuantity" min="0" max="100000000" />
-</div> */}
