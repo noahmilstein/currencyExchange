@@ -41,7 +41,7 @@ class ConversionForm extends React.Component {
 
   clickHandler(e) {
     const selectedExpansion = e.currentTarget.attributes.value.value
-    if (e.currentTarget.attributes.name.value === 'inputForm') {
+    if (e.currentTarget.attributes.name.value === 'inputFrom') {
       this.setState({ compareFrom: selectedExpansion })
     } else if (e.currentTarget.attributes.name.value === 'inputTo') {
       this.setState({ compareTo: selectedExpansion })
@@ -49,7 +49,6 @@ class ConversionForm extends React.Component {
   }
 
   render() {
-    debugger
     return (
       <div>
         This is the form component
@@ -59,14 +58,17 @@ class ConversionForm extends React.Component {
             <input type="text" ref={(input) => { this.fromInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
             To:
             <input type="text" ref={(input) => { this.toInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
-            <span>
+
+            <span style={{display: (this.state.compareFrom === null) ? 'block' : 'none' }}>
+              <h2>This is the from list</h2>
               <SearchResultList
                 name='inputFrom'
                 data={this.state.searchResults}
                 clickHandler={this.clickHandler}
               />
             </span>
-            <span>
+            <span style={{display: (this.state.compareFrom === null) ? 'none' : 'block' }}>
+              <h2>This is the to list</h2>
               <SearchResultList
                 name='inputTo'
                 data={this.state.searchResults}
