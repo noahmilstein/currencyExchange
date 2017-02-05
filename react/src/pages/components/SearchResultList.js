@@ -24,7 +24,6 @@ class SearchResultList extends React.Component {
 
     return(
       <div>
-        I am the search result list component
         <ul>
           {results}
         </ul>

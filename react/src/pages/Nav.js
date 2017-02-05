@@ -16,11 +16,11 @@ class Nav extends React.Component {
     let nav = <ul>
                 <li><Link to={"/"}>Home</Link></li>
                 <li><Link to='/about'>About</Link></li>
+                <li><Link to='/rates'>All Rates</Link></li>
               </ul>;
 
     return (
       <div>
-        I'm on the nav bar component
         <div>
           {nav}
         </div>
