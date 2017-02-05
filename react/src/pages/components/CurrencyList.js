@@ -24,12 +24,27 @@ class CurrencyList extends React.Component {
 
     return(
       <div>
-        <ul>
-          {currencies}
-        </ul>
+        <table className="sortable">
+          <thead>
+            <tr>
+              <th>Currency</th>
+              <th>Abbreviation</th>
+              <th>Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currencies}
+          </tbody>
+        </table>
       </div>
     )
   }
 }
 
 export default CurrencyList;
+
+{/* <div>
+  <ul>
+    {currencies}
+  </ul>
+</div> */}
