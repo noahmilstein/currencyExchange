@@ -112,7 +112,6 @@ class ConversionForm extends React.Component {
   render() {
     return (
       <div>
-        This is the form component
         <form>
           <div className="autoCompleteInput" ref={(div) => { this.autocompleteFrom = div}} style={{display:'inline-block'}}>
             From:
@@ -121,7 +120,6 @@ class ConversionForm extends React.Component {
             <input type="text" name="compareToInput" onFocus={this.focusHandler} ref={(input) => { this.toInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
 
             <span ref={(span) => { this.resultListFrom = span }} style={{display: (this.state.compareFrom === null) ? 'block' : 'none' }}>
-              <h2>This is the from list</h2>
               <SearchResultList
                 name='inputFrom'
                 data={this.state.searchResults}
@@ -129,7 +127,6 @@ class ConversionForm extends React.Component {
               />
             </span>
             <span ref={(span) => { this.resultListTo = span }} style={{display: (this.state.compareFrom === null) ? 'none' : 'block' }}>
-              <h2>This is the to list</h2>
               <SearchResultList
                 name='inputTo'
                 data={this.state.searchResults}

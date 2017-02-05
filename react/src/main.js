@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import Nav from './pages/Nav';
 import HomeIndex from './pages/HomeIndex';
 import About from './pages/About';
+import AllRates from './pages/AllRates';
 
 $(function() {
   ReactDOM.render(
@@ -12,6 +13,7 @@ $(function() {
       <Route path='/' component={Nav}>
         <IndexRoute component={HomeIndex}/>
         <Route path='about' component={About}/>
+        <Route path='rates' component={AllRates}/>
       </Route>
     </Router>,
     document.getElementById('app')

@@ -29,9 +29,7 @@ class HomeIndex extends React.Component {
   render() {
     return (
       <div>
-        This is the home index page
         <div>
-          This is the form component div
           <ConversionForm
             currencyCodes={this.state.currencyCodes}
           />

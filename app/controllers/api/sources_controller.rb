@@ -1,9 +1,47 @@
 class Api::SourcesController < ApiController
+  # http://meumobi.github.io/stocks%20apis/2016/03/13/get-realtime-stock-quotes-yahoo-finance-api.html
+  # https://github.com/toddmotto/public-apis
 
-  def history
-  end
+  # def history
+  # end
+  # def latest
+  # end
 
-  def latest
+  def all_rates
+    base = params[:baseCurrency]
+    all_rates = "https://openexchangerates.org/api/latest.json?app_id=#{ENV['OPEN_EXCHANGE_RATES_API_KEY']}&base=#{base}"
+    allRates = HTTParty.get(all_rates)['rates']
+    all_codes = "https://openexchangerates.org/api/currencies.json?app_id=#{ENV['OPEN_EXCHANGE_RATES_API_KEY']}"
+    allCodes = HTTParty.get(all_codes)
+
+    formatted_base = ''
+    formatted_data = []
+    count = 1
+    allRates.each_pair do |key, value|
+      if key != base
+        hash = {}
+        hash[:abbreviated] = key
+        hash[:expanded] = allCodes[key]
+        hash[:rate] = value
+        hash[:id] = count
+        count += 1
+        formatted_data << hash
+      elsif key == base
+        hash = {}
+        hash[:abbreviated] = key
+        hash[:expanded] = allCodes[key]
+        hash[:rate] = value
+        hash[:id] = count
+        count +=1
+        formatted_base = hash
+      end
+    end
+
+    data_json = { allCurrencies: formatted_data, baseCurrency: formatted_base }
+    respond_to do |format|
+      format.json { render json: data_json }
+      format.html
+    end
   end
 
   def latest_exchange
@@ -22,38 +60,10 @@ class Api::SourcesController < ApiController
     end
 
     data_json = { targetRate: target_rate, timestamp: timestamp }
-
     respond_to do |format|
       format.json { render json: data_json }
       format.html
     end
-
-    # new_rates = []
-    # count = 1
-    # rates.each_pair do |key, value|
-    #   hash = {}
-    #   hash[:currency] = key
-    #   hash[:value] = value
-    #   hash[:id] = count
-    #   count += 1
-    #   new_rates << hash
-    # end
-
-    # binding.pry
-
-    # # https://openexchangerates.org/api/convert/19999.95/GBP/EUR?app_id=YOUR_APP_APP_ID
-    # value = params[:value]
-    # from = params[:from]
-    # to = params[:to]
-    # currency_conversion = "https://openexchangerates.org/api/convert/#{value}/#{from}/#{to}?app_id=#{ENV['OPEN_EXCHANGE_RATES_API_KEY']}"
-    # # currency_conversion = "https://openexchangerates.org/api/convert//19999.95/GBP/EUR?app_id=#{ENV['OPEN_EXCHANGE_RATES_API_KEY']}"
-    # conversion_data = HTTParty.get(currency_conversion)
-    # binding.pry
-    # respond_to do |format|
-    #   format.json { render json: conversion_data }
-    #   format.html
-    # end
-    #
   end
 
   def index
@@ -71,18 +81,11 @@ class Api::SourcesController < ApiController
       new_code_data << hash
     end
 
-    # http://meumobi.github.io/stocks%20apis/2016/03/13/get-realtime-stock-quotes-yahoo-finance-api.html
-    # https://github.com/toddmotto/public-apis
-
-    # data_json = { 'base': base, 'rates': mutated_rates, 'queryTime': timestamp, 'currencyCodes': mutated_code_data }
     data_json = { 'currencyCodes': new_code_data }
-
     respond_to do |format|
       format.json { render json: data_json }
       format.html
     end
   end
 
-  # def create
-  # end
 end
