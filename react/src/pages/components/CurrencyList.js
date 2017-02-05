@@ -42,9 +42,3 @@ class CurrencyList extends React.Component {
 }
 
 export default CurrencyList;
-
-{/* <div>
-  <ul>
-    {currencies}
-  </ul>
-</div> */}

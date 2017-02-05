@@ -14,7 +14,3 @@ class Currency extends React.Component {
 }
 
 export default Currency;
-
-{/* <li className='currencyItem' onClick={this.props.clickHandler} id={this.props.id} value={this.props.abbreviated}>
-  <span className="currencyItem">{this.props.expanded}, {this.props.abbreviated}: {this.props.rate}</span>
-</li> */}
