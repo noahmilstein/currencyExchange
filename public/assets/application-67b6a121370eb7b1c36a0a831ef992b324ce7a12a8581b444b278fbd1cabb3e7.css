@@ -1,0 +1,81 @@
+/* line 3, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+body {
+  color: white;
+  background-color: black;
+}
+
+/* line 8, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.collapsible-header {
+  color: white !important;
+  background-color: black !important;
+}
+
+/* line 13, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+#conversionForm {
+  text-align: center;
+}
+
+/* line 17, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.autoCompleteInput {
+  text-align: left;
+  margin: auto;
+  width: 50%;
+  height: 50%;
+  padding: 10px;
+}
+
+/* line 25, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+#allPages {
+  padding: 0px 25px;
+}
+
+/* line 29, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+#allRates {
+  margin-top: 20px;
+}
+
+/* Remove margins and padding from the list, and add a black background color */
+/* line 34, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+  border-bottom: medium solid white;
+}
+
+/* Float the list items side by side */
+/* line 46, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li {
+  float: right;
+}
+
+/* line 47, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li#logo {
+  float: left;
+}
+
+/* Style the links inside the list items */
+/* line 50, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li a {
+  display: inline-block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of links on hover */
+/* line 61, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li a:hover {
+  background-color: #555;
+}
+
+/* Hide the list item that contains the link that should open and close the topnav on small screens */
+/* line 64, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li.icon {
+  display: none;
+}
