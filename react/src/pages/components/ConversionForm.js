@@ -135,9 +135,9 @@ class ConversionForm extends React.Component {
             </span>
 
             <div style={{display: (this.state.compareTo === null) ? 'none' : 'block' }}>
-              Set value of base:
+              Value of base:
               <input type="number" value={this.state.inputValue} onChange={this.handleChange} name="inputQuantity" min="1" max="100000000" />
-              Set value of comparitor:
+              Value of comparator:
               <input type="number" value={this.state.outputValue} onChange={this.handleChange} name="outputQuantity" min="0" max="100000000" />
             </div>
 
