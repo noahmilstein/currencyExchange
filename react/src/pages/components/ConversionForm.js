@@ -112,11 +112,11 @@ class ConversionForm extends React.Component {
   render() {
     return (
       <div>
-        <form>
+        <form id="conversionForm">
           <div className="autoCompleteInput" ref={(div) => { this.autocompleteFrom = div}} style={{display:'inline-block'}}>
-            From:
+            Convert From (base):
             <input type="text" name="compareFromInput" onFocus={this.focusHandler} ref={(input) => { this.fromInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
-            To:
+            Convert To (comparitor):
             <input type="text" name="compareToInput" onFocus={this.focusHandler} ref={(input) => { this.toInputField = input}} className="search" placeholder="Country or Currency" onChange={this.displayMatches} onKeyUp={this.displayMatches} />
 
             <span ref={(span) => { this.resultListFrom = span }} style={{display: (this.state.compareFrom === null) ? 'block' : 'none' }}>
@@ -135,9 +135,9 @@ class ConversionForm extends React.Component {
             </span>
 
             <div style={{display: (this.state.compareTo === null) ? 'none' : 'block' }}>
-              Input:
+              Set value of base:
               <input type="number" value={this.state.inputValue} onChange={this.handleChange} name="inputQuantity" min="1" max="100000000" />
-              Output:
+              Set value of comparitor:
               <input type="number" value={this.state.outputValue} onChange={this.handleChange} name="outputQuantity" min="0" max="100000000" />
             </div>
 

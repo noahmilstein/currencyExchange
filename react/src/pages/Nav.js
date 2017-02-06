@@ -6,17 +6,14 @@ class Nav extends React.Component {
     super(props);
     this.state = {
     };
-    // this.setState = this.setState.bind(this);
   }
 
-  // componentDidMount() {
-  // }
-
   render() {
-    let nav = <ul>
-                <li><Link to={"/"}>Home</Link></li>
-                <li><Link to='/about'>About</Link></li>
+    let nav = <ul className="topnav" id="myTopnav">
+                <li id="logo"><Link to='/rates'>CURRENCY EXCHANGE</Link></li>
                 <li><Link to='/rates'>All Rates</Link></li>
+                <li><Link to='/about'>About</Link></li>
+                <li><Link to={"/"}>Convert $</Link></li>
               </ul>;
 
     return (
@@ -24,7 +21,7 @@ class Nav extends React.Component {
         <div>
           {nav}
         </div>
-        <div>
+        <div id="allPages">
           {this.props.children}
         </div>
       </div>

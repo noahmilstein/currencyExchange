@@ -46,8 +46,8 @@ class AllRates extends React.Component {
     }
 
     return (
-      <div>
-        <div>{comparitor}</div>
+      <div id="allRates">
+        <div><h6><strong>Base Currency:</strong></h6> {comparitor}</div>
         <div>
           <CurrencyList
             data={this.state.allCurrencies}
