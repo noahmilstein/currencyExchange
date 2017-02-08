@@ -1,0 +1,138 @@
+/* line 3, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+body {
+  color: white;
+  background-color: black;
+}
+
+/* line 8, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+thead {
+  border-bottom: none !important;
+}
+
+/* The alert message box */
+/* line 13, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  /* Red */
+  color: white;
+  margin-bottom: 15px;
+}
+
+/* The close button */
+/* line 21, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+/* line 33, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.closebtn:hover {
+  color: black;
+}
+
+/* line 37, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.resultItem:hover {
+  transition: all .07s;
+  transform: scale(1.03);
+  box-shadow: 0 0 10px white;
+  opacity: 1;
+  border-radius: 5px;
+}
+
+/* line 45, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.resultItem {
+  padding-left: 25px;
+}
+
+/* line 49, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.currencyItem:hover {
+  transition: all .07s;
+  transform: scale(1.03);
+  box-shadow: 0 0 10px white;
+  opacity: 1;
+  border-radius: 5px;
+}
+
+/* line 57, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.collapsible-header {
+  color: white !important;
+  background-color: black !important;
+}
+
+/* line 62, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+#conversionForm {
+  text-align: center;
+}
+
+/* line 66, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+.autoCompleteInput {
+  text-align: left;
+  margin: auto;
+  width: 50%;
+  height: 50%;
+  padding: 10px;
+}
+
+/* line 74, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+#allPages {
+  padding: 0px 25px;
+}
+
+/* line 78, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+#allRates {
+  margin-top: 20px;
+}
+
+/* Remove margins and padding from the list, and add a black background color */
+/* line 83, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+  border-bottom: medium solid white;
+}
+
+/* Float the list items side by side */
+/* line 93, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li {
+  float: right;
+}
+
+/* line 94, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li#logo {
+  float: left;
+}
+
+/* Style the links inside the list items */
+/* line 97, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li a {
+  display: inline-block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of links on hover */
+/* line 108, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li a:hover {
+  background-color: #555;
+}
+
+/* Hide the list item that contains the link that should open and close the topnav on small screens */
+/* line 111, /Users/noah/Documents/currencyExchange/app/assets/stylesheets/application.scss */
+ul.topnav li.icon {
+  display: none;
+}
