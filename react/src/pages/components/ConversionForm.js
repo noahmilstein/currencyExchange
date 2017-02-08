@@ -9,7 +9,8 @@ class ConversionForm extends React.Component {
       compareFrom: null,
       compareTo: null,
       inputValue: 1,
-      outputValue: ''
+      outputValue: '',
+      outputChange: false
     };
     this.findMatches = this.findMatches.bind(this);
     this.displayMatches = this.displayMatches.bind(this);
@@ -86,7 +87,7 @@ class ConversionForm extends React.Component {
   }
 
   getLatestExchange() {
-    if (this.state.compareFrom !== '' && this.state.compareTo !== '') {
+    if (this.state.compareFrom !== null && this.state.compareTo !== null) {
       let data = JSON.stringify({compareFrom: this.state.compareFrom.abbreviated, compareTo: this.state.compareTo.abbreviated })
       $.ajax({
         url: '/api/sources/latest_exchange',
@@ -95,14 +96,24 @@ class ConversionForm extends React.Component {
         contentType: 'application/json'
       })
       .done(data => {
-        this.setState({ outputValue: (parseFloat(data.targetRate * this.state.inputValue)) });
+        if (this.state.outputChange === false) {
+          this.setState({ outputValue: (parseFloat(data.targetRate * this.state.inputValue)) });
+        } else {
+          this.setState({
+            inputValue: parseFloat((this.state.inputValue * this.state.outputValue) / data.targetRate),
+            outputChange: true
+          });
+        }
       });
     }
   }
 
   handleChange(e) {
     if (e.target.name === 'outputQuantity') {
-      this.setState({ outputValue: e.target.value })
+      this.setState({
+        outputValue: e.target.value,
+        outputChange: true
+      })
     } else if (e.target.name === 'inputQuantity') {
       this.setState({ inputValue: e.target.value })
     }
