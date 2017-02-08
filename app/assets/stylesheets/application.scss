@@ -5,6 +5,30 @@ body {
   background-color: black;
 }
 
+thead {
+  border-bottom: none !important;
+}
+
+.resultItem:hover {
+  transition: all .07s;
+  transform: scale(1.03);
+  box-shadow: 0 0 10px white;
+  opacity: 1;
+  border-radius: 5px;
+}
+
+.resultItem {
+  padding-left: 25px;
+}
+
+.currencyItem:hover {
+  transition: all .07s;
+  transform: scale(1.03);
+  box-shadow: 0 0 10px white;
+  opacity: 1;
+  border-radius: 5px;
+}
+
 .collapsible-header {
   color: white !important;
   background-color: black !important;
@@ -36,9 +60,7 @@ ul.topnav {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  //
   background-color: black;
-  // background-color: #333;
   border-bottom: medium solid white;
 }
 
