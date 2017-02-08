@@ -19,6 +19,7 @@ class ConversionForm extends React.Component {
     this.focusHandler = this.focusHandler.bind(this);
     this.getLatestExchange = this.getLatestExchange.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleAlert = this.handleAlert.bind(this);
   }
 
   findMatches(wordToMatch, currencies) {
@@ -108,14 +109,23 @@ class ConversionForm extends React.Component {
     }
   }
 
+  handleAlert() {
+    this.alertBox.style.display = 'none';
+  }
+
   handleChange(e) {
-    if (e.target.name === 'outputQuantity') {
-      this.setState({
-        outputValue: e.target.value,
-        outputChange: true
-      })
-    } else if (e.target.name === 'inputQuantity') {
-      this.setState({ inputValue: e.target.value })
+    let handleZero = parseFloat(e.target.value);
+    if (handleZero === 0) {
+      this.alertBox.style.display = 'block'
+    } else {
+      if (e.target.name === 'outputQuantity') {
+        this.setState({
+          outputValue: handleZero,
+          outputChange: true
+        })
+      } else if (e.target.name === 'inputQuantity') {
+        this.setState({ inputValue: handleZero })
+      }
     }
     this.getLatestExchange()
   }
@@ -144,6 +154,11 @@ class ConversionForm extends React.Component {
                 clickHandler={this.clickHandler}
               />
             </span>
+
+            <div className="alert" style={{display: 'none' }} ref={(div) => { this.alertBox = div }}>
+              <span className="closebtn" onClick={this.handleAlert}>&times;</span>
+              Value must be greater than zero
+            </div>
 
             <div style={{display: (this.state.compareTo === null) ? 'none' : 'block' }}>
               Value of base:
