@@ -8,12 +8,28 @@ class Nav extends React.Component {
     };
   }
 
+  // componentDidMount() {
+    // let allRoutes = [];
+    // this.props.route.childRoutes.forEach(route => {
+    //   allRoutes.push(route.path)
+    // })
+    // const url = window.location.href;
+    // allRoutes.forEach(route => {
+    //   if (url.includes(route)) {
+    //     this.refs[route].classList.add('active')
+    //   } else {
+    //     this.refs.root.classList.add('active')
+    //   }
+    // })
+  // }
+
   render() {
+
     let nav = <ul className="topnav" id="myTopnav">
-                <li id="logo"><Link to='/rates'>CURRENCY EXCHANGE</Link></li>
-                <li><Link to='/rates'>All Rates</Link></li>
-                <li><Link to='/about'>About</Link></li>
-                <li><Link to={"/"}>Convert $</Link></li>
+                <li id="logo" ref='logo'><Link to='/'>CURRENCY EXCHANGE</Link></li>
+                <li ref='rates'><Link to='/rates' activeClassName='active'>All Rates</Link></li>
+                <li ref='about'><Link to='/about' activeClassName='active'>About</Link></li>
+                <li ref='convert'><Link to='/convert' activeClassName='active'>Convert $</Link></li>
               </ul>;
 
     return (
