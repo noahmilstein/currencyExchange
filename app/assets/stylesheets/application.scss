@@ -9,6 +9,15 @@ thead {
   border-bottom: none !important;
 }
 
+.active {
+  background-color: #ff00ff;
+}
+
+#welcome {
+  margin-top: 50px;
+  text-align: center;
+}
+
 /* The alert message box */
 .alert {
     padding: 20px;
