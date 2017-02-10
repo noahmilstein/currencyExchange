@@ -1,26 +1,21 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To get started, run the following sequence of commands in your CLI.
 
-Things you may want to cover:
+```
+git clone https://github.com/noahmilstein/currencyExchange.git
+npm install
+bundle install
+rails s
+npm start
+```
 
-* Ruby version
+* Ruby version "2.3.1"
 
-* System dependencies
+# Currency Exchange
 
-* Configuration
+* This application was takes in data from openexchangerates.org and displays it to the user based on user input.
 
-* Database creation
+* Users can convert any currency to any other stored in the DB and in any amount.
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# Stock Tracker
-Your app description, here.
+* Users can also render a table of all exchange rates priced against any chosen base currency.
