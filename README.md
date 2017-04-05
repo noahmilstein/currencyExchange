@@ -1,3 +1,5 @@
+## api subscription temporarily inactive
+
 # README
 
 To get started, run the following sequence of commands in your CLI.
